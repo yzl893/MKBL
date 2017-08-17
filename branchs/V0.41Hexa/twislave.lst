@@ -1,0 +1,160 @@
+   1               		.file	"twislave.c"
+   2               	__SREG__ = 0x3f
+   3               	__SP_H__ = 0x3e
+   4               	__SP_L__ = 0x3d
+   5               	__CCP__  = 0x34
+   6               	__tmp_reg__ = 0
+   7               	__zero_reg__ = 1
+  15               	.Ltext0:
+  16               	.global	InitIC2_Slave
+  18               	InitIC2_Slave:
+  19               	.LFB3:
+  20               	.LM1:
+  21               	.LVL0:
+  22               	/* prologue: function */
+  23               	/* frame size = 0 */
+  24               	.LM2:
+  25 0000 9091 0000 		lds r25,MotorAdresse
+  26 0004 990F      		lsl r25
+  27 0006 980F      		add r25,r24
+  28 0008 92B9      		out 34-32,r25
+  29               	.LM3:
+  30 000a 85EC      		ldi r24,lo8(-59)
+  31               	.LVL1:
+  32 000c 86BF      		out 86-32,r24
+  33               	/* epilogue start */
+  34               	.LM4:
+  35 000e 0895      		ret
+  36               	.LFE3:
+  38               	.global	__vector_17
+  40               	__vector_17:
+  41               	.LFB4:
+  42               	.LM5:
+  43 0010 1F92      		push __zero_reg__
+  44 0012 0F92      		push r0
+  45 0014 0FB6      		in r0,__SREG__
+  46 0016 0F92      		push r0
+  47 0018 1124      		clr __zero_reg__
+  48 001a 8F93      		push r24
+  49 001c 9F93      		push r25
+  50               	/* prologue: Signal */
+  51               	/* frame size = 0 */
+  52               	.LM6:
+  53 001e 81B1      		in r24,33-32
+  54 0020 90E0      		ldi r25,lo8(0)
+  55 0022 887F      		andi r24,lo8(248)
+  56 0024 9070      		andi r25,hi8(248)
+  57 0026 8038      		cpi r24,128
+  58 0028 9105      		cpc r25,__zero_reg__
+  59 002a 01F0      		breq .L7
+  60 002c 8138      		cpi r24,129
+  61 002e 9105      		cpc r25,__zero_reg__
+  62 0030 04F4      		brge .L11
+  63 0032 0097      		sbiw r24,0
+  64 0034 01F0      		breq .L5
+  65 0036 8036      		cpi r24,96
+  66 0038 9105      		cpc r25,__zero_reg__
+  67 003a 01F4      		brne .L4
+  68 003c 00C0      		rjmp .L21
+  69               	.L11:
+  70 003e 883B      		cpi r24,184
+  71 0040 9105      		cpc r25,__zero_reg__
+  72 0042 01F0      		breq .L9
+  73 0044 883F      		cpi r24,248
+  74 0046 9105      		cpc r25,__zero_reg__
+  75 0048 01F0      		breq .L10
+  76 004a 883A      		cpi r24,168
+  77 004c 9105      		cpc r25,__zero_reg__
+  78 004e 01F4      		brne .L4
+  79 0050 00C0      		rjmp .L9
+  80               	.L21:
+  81               	.LM7:
+  82 0052 86B7      		in r24,86-32
+  83 0054 8068      		ori r24,lo8(-128)
+  84 0056 86BF      		out 86-32,r24
+  85               	.LM8:
+  86 0058 1092 0000 		sts Byte_Counter,__zero_reg__
+  87 005c 00C0      		rjmp .L17
+  88               	.L7:
+  89               	.LM9:
+  90 005e 83B1      		in r24,35-32
+  91 0060 8093 0000 		sts I2C_RXBuffer,r24
+  92               	.LM10:
+  93 0064 84EF      		ldi r24,lo8(500)
+  94 0066 91E0      		ldi r25,hi8(500)
+  95 0068 9093 0000 		sts (I2C_Timeout)+1,r25
+  96 006c 8093 0000 		sts I2C_Timeout,r24
+  97 0070 00C0      		rjmp .L16
+  98               	.L9:
+  99               	.LM11:
+ 100 0072 8091 0000 		lds r24,Byte_Counter
+ 101 0076 8823      		tst r24
+ 102 0078 01F4      		brne .L15
+ 103               	.LM12:
+ 104 007a 8091 0000 		lds r24,Mittelstrom
+ 105 007e 83B9      		out 35-32,r24
+ 106               	.LM13:
+ 107 0080 81E0      		ldi r24,lo8(1)
+ 108 0082 8093 0000 		sts Byte_Counter,r24
+ 109 0086 00C0      		rjmp .L16
+ 110               	.L15:
+ 111               	.LM14:
+ 112 0088 8091 0000 		lds r24,MaxPWM
+ 113 008c 83B9      		out 35-32,r24
+ 114               	.L16:
+ 115               	.LM15:
+ 116 008e 86B7      		in r24,86-32
+ 117 0090 8068      		ori r24,lo8(-128)
+ 118 0092 00C0      		rjmp .L18
+ 119               	.L10:
+ 120               	.LM16:
+ 121 0094 86B7      		in r24,86-32
+ 122 0096 8069      		ori r24,lo8(-112)
+ 123 0098 86BF      		out 86-32,r24
+ 124               	.L5:
+ 125               	.LM17:
+ 126 009a 86B7      		in r24,86-32
+ 127 009c 8069      		ori r24,lo8(-112)
+ 128 009e 86BF      		out 86-32,r24
+ 129               	.L4:
+ 130               	.LM18:
+ 131 00a0 85EC      		ldi r24,lo8(-59)
+ 132               	.L18:
+ 133 00a2 86BF      		out 86-32,r24
+ 134               	.L17:
+ 135               	/* epilogue start */
+ 136               	.LM19:
+ 137 00a4 9F91      		pop r25
+ 138 00a6 8F91      		pop r24
+ 139 00a8 0F90      		pop r0
+ 140 00aa 0FBE      		out __SREG__,r0
+ 141 00ac 0F90      		pop r0
+ 142 00ae 1F90      		pop __zero_reg__
+ 143 00b0 1895      		reti
+ 144               	.LFE4:
+ 146               	.global	Byte_Counter
+ 147               	.global	Byte_Counter
+ 148               		.section .bss
+ 151               	Byte_Counter:
+ 152 0000 00        		.skip 1,0
+ 153               		.comm I2C_RXBuffer,1,1
+ 186               	.Letext0:
+DEFINED SYMBOLS
+                            *ABS*:00000000 twislave.c
+C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp/ccyl1o1s.s:2      *ABS*:0000003f __SREG__
+C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp/ccyl1o1s.s:3      *ABS*:0000003e __SP_H__
+C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp/ccyl1o1s.s:4      *ABS*:0000003d __SP_L__
+C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp/ccyl1o1s.s:5      *ABS*:00000034 __CCP__
+C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp/ccyl1o1s.s:6      *ABS*:00000000 __tmp_reg__
+C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp/ccyl1o1s.s:7      *ABS*:00000001 __zero_reg__
+C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp/ccyl1o1s.s:18     .text:00000000 InitIC2_Slave
+C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp/ccyl1o1s.s:40     .text:00000010 __vector_17
+C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp/ccyl1o1s.s:151    .bss:00000000 Byte_Counter
+                            *COM*:00000001 I2C_RXBuffer
+
+UNDEFINED SYMBOLS
+MotorAdresse
+I2C_Timeout
+Mittelstrom
+MaxPWM
+__do_clear_bss
